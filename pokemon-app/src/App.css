@@ -21,6 +21,29 @@ h1 {
   padding:15px;
   margin-bottom: 3rem;
 }
+.searchForm {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+input[type="search"],
+input[type="number"]{
+  width: 25%;
+  padding:5px 10px;
+  border: 3px solid #e2e2e2 ;
+  border-radius: 6px;
+  margin: 0 10px;
+}
+input[type="submit"] {
+  padding: 10px 15px;
+  cursor: pointer;
+  border: 3px solid #e2e2e2 ;
+  border-radius: 6px;
+  font-weight: 700;
+}
+input[type="submit"]:hover {
+  background-color: #0a0a0a;
+  color:#fff;
+}
 .pokemonContainer {
   display: grid;
   grid-template-columns:  repeat( auto-fit, minmax(200px, 260px) );

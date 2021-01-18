@@ -1,12 +1,29 @@
-import React, { Component } from 'react';
+import React, { Component, useReducer } from 'react';
 import './App.css';
 
 class App extends Component {
   state = {
-    pokemonsList: []
+    pokemonsList: [],
+    limit: 10,
   }
+
+  handleChange = (event) => {
+    const pokemonLimit = event.target.value
+    // console.log("value "+pokemonLimit)
+    this.state.limit = pokemonLimit
+    this.setState(this.state);
+}
+
+handleSubmit = (e) =>  {
+  e.preventDefault();
+  this.handleChange(e);
+}
+
+
+
   componentDidMount() {
-    fetch("https://pokeapi.co/api/v2/pokemon?offset=10&limit=10")
+    let userChoice = Number(this.state.limit);
+    fetch(`https://pokeapi.co/api/v2/pokemon?offset=10&limit=${userChoice}`)
       .then(response => response.json())
       .then(data => {
         const pokemonData = [...data.results];
@@ -22,12 +39,22 @@ class App extends Component {
             });
         });
       });
+
   }
 
   render() {
     return (
       <div className="wrapper">
         <h1>Kanto Pokemon</h1>
+        <div>
+          <form className="searchForm" onSubmit={this.handleSubmit}>
+            <label htmlFor="gsearch">Search by name:</label>
+            <input type="search" id="psearch" name="psearch"></input>
+            <label htmlFor="gsearch">Amount:</label>
+            <input type="number" min="1" id="quantity" name="quantity"  onChange={this.handleChange}></input>
+            <input type="submit" value="Submit"></input>
+          </form>
+        </div>
         <div className="pokemonContainer">
           {
             this.state.pokemonsList.map((pokemon) => {
@@ -40,10 +67,10 @@ class App extends Component {
                     {
                       pokemon.types.map(typeName => {
                         return (
-                      <ul>
-                        <li>{typeName.type.name}</li>
-                      </ul>
-                      )
+                          <ul>
+                            <li>{typeName.type.name}</li>
+                          </ul>
+                        )
                       })
                     }
                   </div>
