@@ -1,4 +1,4 @@
-import React, { Component, useReducer } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
@@ -26,10 +26,10 @@ handleSubmit = (e) =>  {
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=10&limit=${userChoice}`)
       .then(response => response.json())
       .then(data => {
-        const pokemonData = [...data.results];
+        const pokemonData = data.results;
 
-        pokemonData.map(poke => {
-          return fetch(poke.url).then(res => res.json())
+        pokemonData.forEach(poke => {
+          fetch(poke.url).then(res => res.json())
             .then(pokeInfo => {
               const pokemonsList = this.state.pokemonsList
               pokemonsList.push(pokeInfo)
@@ -47,11 +47,11 @@ handleSubmit = (e) =>  {
       <div className="wrapper">
         <h1>Kanto Pokemon</h1>
         <div>
-          <form className="searchForm" onSubmit={this.handleSubmit}>
+          <form className="searchForm" onSubmit={ this.handleSubmit }>
             <label htmlFor="gsearch">Search by name:</label>
             <input type="search" id="psearch" name="psearch"></input>
             <label htmlFor="gsearch">Amount:</label>
-            <input type="number" min="1" id="quantity" name="quantity"  onChange={this.handleChange}></input>
+            <input type="number" min="1" id="quantity" name="quantity"  onChange={ this.handleChange }></input>
             <input type="submit" value="Submit"></input>
           </form>
         </div>
@@ -59,16 +59,16 @@ handleSubmit = (e) =>  {
           {
             this.state.pokemonsList.map((pokemon) => {
               return (
-                <div className="boxContainer">
-                  <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}></img>
+                <div className="boxContainer" key={ pokemon.id }>
+                  <img src={`https://pokeres.bastionbot.org/images/pokemon/${ pokemon.id }.png`} alt={`this is ${ pokemon.name }the pokemon`}></img>
                   <div className="textDescription">
-                    <h2>{pokemon.name}</h2>
-                    <p>#{pokemon.id}</p>
+                    <h2>{ pokemon.name }</h2>
+                    <p>#{ pokemon.id }</p>
                     {
                       pokemon.types.map(typeName => {
                         return (
-                          <ul>
-                            <li>{typeName.type.name}</li>
+                          <ul key={ typeName.slot }>
+                            <li>{ typeName.type.name }</li>
                           </ul>
                         )
                       })
