@@ -9,9 +9,9 @@ class App extends Component {
 
   handleChange = (event) => {
     const pokemonLimit = event.target.value
-    // console.log("value "+pokemonLimit)
-    this.state.limit = pokemonLimit
-    this.setState(this.state);
+    this.setState({
+      limit:pokemonLimit
+    });
 }
 
 handleSubmit = (e) =>  {
@@ -19,32 +19,45 @@ handleSubmit = (e) =>  {
   this.handleChange(e);
 }
 
-
-
   componentDidMount() {
     let userChoice = Number(this.state.limit);
+    console.log("1")
+    
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=10&limit=${userChoice}`)
-      .then(response => response.json())
+      .then((response)=> {
+        console.log("3")
+        return response.json()
+      })
       .then(data => {
+        console.log("4")
+
         const pokemonData = data.results;
 
-        pokemonData.forEach(poke => {
-          fetch(poke.url).then(res => res.json())
+        let pokemonsPromises = pokemonData.map(poke => {          
+          return fetch(poke.url).then(res => res.json())
             .then(pokeInfo => {
-              const pokemonsList = this.state.pokemonsList
-              pokemonsList.push(pokeInfo)
-              this.setState({
-                pokemonsList: pokemonsList,
-              });
-            });
+              console.log("6")
+              return pokeInfo
+            })
         });
+
+        console.log("5")
+        // All promises are received
+        Promise.all(pokemonsPromises).then((results) => {
+          console.log("7")
+          this.setState({
+            pokemonsList:results
+          })
+        })
+        .catch(error => console.log(`Error in promises ${error}`))
       });
 
+      console.log("2")
   }
 
   render() {
     return (
-      <div className="wrapper">
+      <div className="wrapper"> 
         <h1>Kanto Pokemon</h1>
         <div>
           <form className="searchForm" onSubmit={ this.handleSubmit }>
