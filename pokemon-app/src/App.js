@@ -55,9 +55,9 @@ handleSubmit = (e) =>  {
         <div>
           <form className="searchForm" onSubmit={ this.handleSubmit }>
             <label htmlFor="gsearch">Search by name:</label>
-            <input type="search" id="psearch" name="psearch"></input>
+            <input type="search" id="psearch" name="psearch" placeholder="butterfree"></input>
             <label htmlFor="gsearch">Amount:</label>
-            <input type="number" min="1" id="quantity" name="quantity"  onChange={ this.handleChange }></input>
+            <input type="number" min="1" id="quantity" placeholder="15" name="quantity"  onChange={ this.handleChange }></input>
             <input type="submit" value="Submit"></input>
           </form>
         </div>
