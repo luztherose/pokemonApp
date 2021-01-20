@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/pokemonApp/static/css/main.59e81495.chunk.css",
-    "main.js": "/pokemonApp/static/js/main.19947379.chunk.js",
-    "main.js.map": "/pokemonApp/static/js/main.19947379.chunk.js.map",
+    "main.js": "/pokemonApp/static/js/main.3d65db1b.chunk.js",
+    "main.js.map": "/pokemonApp/static/js/main.3d65db1b.chunk.js.map",
     "runtime-main.js": "/pokemonApp/static/js/runtime-main.79fdf5f2.js",
     "runtime-main.js.map": "/pokemonApp/static/js/runtime-main.79fdf5f2.js.map",
     "static/js/2.5e6d6e88.chunk.js": "/pokemonApp/static/js/2.5e6d6e88.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.79fdf5f2.js",
     "static/js/2.5e6d6e88.chunk.js",
     "static/css/main.59e81495.chunk.css",
-    "static/js/main.19947379.chunk.js"
+    "static/js/main.3d65db1b.chunk.js"
   ]
 }
