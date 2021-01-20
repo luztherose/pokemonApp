@@ -4,44 +4,39 @@ import './App.css';
 class App extends Component {
   state = {
     pokemonsList: [],
-    limit: 10,
+    limit: 10
   }
 
   handleChange = (event) => {
     const pokemonLimit = event.target.value
     this.setState({
-      limit:pokemonLimit
+      limit: Number(pokemonLimit)
     });
 }
 
 handleSubmit = (e) =>  {
   e.preventDefault();
-  this.handleChange(e);
+  this.fetchPokemon();
 }
 
   componentDidMount() {
-    let userChoice = Number(this.state.limit);
-    console.log("1")
-    
-    fetch(`https://pokeapi.co/api/v2/pokemon?offset=10&limit=${userChoice}`)
+    this.fetchPokemon();
+  }
+
+  fetchPokemon = () => {
+    let userChoice = this.state.limit;
+    fetch(`https://pokeapi.co/api/v2/pokemon?offset=${userChoice}&limit=${userChoice}`)
       .then((response)=> {
-        console.log("3")
         return response.json()
       })
       .then(data => {
-        console.log("4")
-
         const pokemonData = data.results;
-
         let pokemonsPromises = pokemonData.map(poke => {          
           return fetch(poke.url).then(res => res.json())
             .then(pokeInfo => {
-              console.log("6")
               return pokeInfo
             })
         });
-
-        console.log("5")
         // All promises are received
         Promise.all(pokemonsPromises).then((results) => {
           console.log("7")
@@ -51,8 +46,6 @@ handleSubmit = (e) =>  {
         })
         .catch(error => console.log(`Error in promises ${error}`))
       });
-
-      console.log("2")
   }
 
   render() {
