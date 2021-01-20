@@ -9,40 +9,55 @@ html { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: 
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; border: 0; padding: 0; white-space: nowrap; clip-path: inset(100%); clip: rect(0 0 0 0); overflow: hidden;}
 
 /* /////////////////////////////////////////////////////////////////// */
+/* /////////////////////////////////////////////////////////////////// */
+:root {
+  --main-color: #e2e2e2 ;
+  --secondary-color:#fff;
+  --main-bg-color: #0a0a0a;
+  
+}
 .wrapper {
   max-width: 1280px;
   width: 100%;
   margin: 0 auto;
 }
-h1 {
+h1,
+.searchForm {
   text-align: center;
-  background-color: #0a0a0a;
-  color:#fff;
+}
+h1 {
+  background-color: var(--main-bg-color);
+  color:var(--secondary-color);
   padding:15px;
   margin-bottom: 3rem;
 }
 .searchForm {
-  text-align: center;
   margin-bottom: 2rem;
 }
+label,
+input[type="submit"] {
+  font-weight: 700;
+}
 input[type="search"],
-input[type="number"]{
+input[type="number"] {
   width: 25%;
   padding:5px 10px;
-  border: 3px solid #e2e2e2 ;
-  border-radius: 6px;
   margin: 0 10px;
+}
+input[type="search"],
+input[type="number"],
+input[type="submit"],
+.boxContainer { 
+  border: 3px solid var(--main-color) ;
+  border-radius: 6px;
 }
 input[type="submit"] {
   padding: 10px 15px;
   cursor: pointer;
-  border: 3px solid #e2e2e2 ;
-  border-radius: 6px;
-  font-weight: 700;
 }
 input[type="submit"]:hover {
-  background-color: #0a0a0a;
-  color:#fff;
+  background-color: var(--main-bg-color);
+  color:var(--secondary-color);
 }
 .pokemonContainer {
   display: grid;
@@ -51,14 +66,10 @@ input[type="submit"]:hover {
   justify-content: center;
   grid-gap: 30px;
 }
-.boxContainer {
-  border: 3px solid #e2e2e2 ;
-  border-radius: 6px;
-}
 img {
   display: block;
   width: 100%;
-  background-color:#e2e2e2 ;
+  background-color:var(--main-color) ;
 }
 .textDescription {
   padding-left: 1.7rem;
