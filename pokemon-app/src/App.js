@@ -13,15 +13,15 @@ class App extends Component {
     let inputName = event.target.name
     let eventResult = event.target.value
     let pokemonLimit = this.state.limit;
-    let pokemonType= this.state.type;
-    if(inputName === "types") {
+    let pokemonType = this.state.type;
+    if (inputName === "types") {
       pokemonType = eventResult
-    }else {
+    } else {
       pokemonLimit = Number(eventResult)
     }
     this.setState({
       limit: pokemonLimit,
-      type:pokemonType
+      type: pokemonType
     });
   }
 
@@ -62,12 +62,12 @@ class App extends Component {
   fetchPokemonType = () => {
     const type = this.state.type
     fetch(`https://pokeapi.co/api/v2/type/${type}`)
-    .then(res => res.json())
-    .then( data => {
+      .then(res => res.json())
+      .then(data => {
         console.log(data)
-    })
-    .catch(error => console.log(error))
-}
+      })
+      .catch(error => console.log(error))
+  }
 
   render() {
     return (
@@ -78,8 +78,8 @@ class App extends Component {
 
             <label htmlFor="pokemonTypes">Choose a type:</label>
 
-            <select name="types" id="types" onChange={ this.handleChange }>
-            <option value="all">All</option>
+            <select name="types" id="types" onChange={this.handleChange}>
+              <option value="all">All</option>
               <option value="normal">Normal</option>
               <option value="fighting">Fighting</option>
               <option value="flying">Flying</option>
@@ -109,7 +109,7 @@ class App extends Component {
             {/* <input type="search" id="psearch" name="psearch" placeholder="butterfree"></input> */}
 
             <label htmlFor="gsearch">Amount:</label>
-            <input type="number" min="1" id="quantity" placeholder="15" name="quantity" onChange={ this.handleChange }></input>
+            <input type="number" min="1" id="quantity" placeholder="15" name="quantity" onChange={this.handleChange}></input>
             <input type="submit" value="Submit"></input>
           </form>
         </div>
