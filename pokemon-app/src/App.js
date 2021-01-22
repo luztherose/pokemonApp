@@ -102,7 +102,7 @@ class App extends Component {
         <div>
           <form className="searchForm" onSubmit={this.handleSubmit}>
             
-            <label htmlFor="pokemonTypes">Choose a type:</label>
+            <label htmlFor="types">Choose a type:</label>
             <select name="types" id="types" onChange={this.handleChange}>
             <option value="all"> all</option>
             {
@@ -114,7 +114,7 @@ class App extends Component {
             }
             </select>
 
-            <label htmlFor="gsearch">Amount:</label>
+            <label htmlFor="quantity">Amount:</label>
             <input type="number" min="1" id="quantity" placeholder="15" name="quantity" onChange={this.handleChange}></input>
             <input type="submit" value="Submit"></input>
           </form>
