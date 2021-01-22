@@ -28,7 +28,12 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.fetchPokemons();
+    if( this.state.type !== "all" && this.state.limit > 0 ) {
+      this.fetchPokemonsByType();
+    }else {
+      this.fetchPokemons();
+    }
+    
   }
 
   componentDidMount() {
@@ -43,16 +48,16 @@ class App extends Component {
         return response.json()
       })
       .then(data => {
-        this.fetchApokemon(data)
+        this.fetchApokemon(data.results)
       });
   }
-  fetchApokemon = (data) => {
-    const pokemonData = data.results;
+  fetchApokemon = (pokemonData) => {
     let pokemonsPromises = pokemonData.map(poke => {
       return fetch(poke.url).then(res => res.json())
         .then(pokeInfo => {
           return pokeInfo
         })
+        .catch(error => console.log(error))
     });
     // All promises are received
     Promise.all(pokemonsPromises).then((results) => {
@@ -73,7 +78,24 @@ class App extends Component {
       .catch(error => console.log(error))
   }
 
+  fetchPokemonsByType = () => {
+    const type = this.state.type
+    fetch(`https://pokeapi.co/api/v2/type/${type}`)
+    .then(res => res.json())
+    .then((data) => {
+      const limitNumber = this.state.limit
+      const limitedPokemons = data.pokemon
+        .slice(0, limitNumber)
+        .map((item) => item.pokemon)
+
+      this.fetchApokemon(limitedPokemons)
+    })
+    .catch( error => console.log(error)
+    ) 
+  }
+
   render() {
+    
     return (
       <div className="wrapper">
         <h1>Kanto Pokemon</h1>
