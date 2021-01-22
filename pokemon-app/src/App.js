@@ -54,9 +54,6 @@ class App extends Component {
   fetchApokemon = (pokemonData) => {
     let pokemonsPromises = pokemonData.map(poke => {
       return fetch(poke.url).then(res => res.json())
-        .then(pokeInfo => {
-          return pokeInfo
-        })
         .catch(error => console.log(error))
     });
     // All promises are received
