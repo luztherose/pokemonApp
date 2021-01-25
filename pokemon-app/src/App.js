@@ -7,7 +7,9 @@ class App extends Component {
     pokemonsList: [],
     limit: 10,
     typesList: [],
-    type: "all"
+    type: "all",
+    isLoading: true,
+    isEqual: 0
   }
 
   handleChange = (event) => {
@@ -28,6 +30,9 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+    this.setState({
+      isLoading: true
+    })
     if( this.state.type !== "all" && this.state.limit > 0 ) {
       this.fetchPokemonsByType();
     }else {
@@ -35,12 +40,20 @@ class App extends Component {
     }
     
   }
-
+  handleLoader = () => {
+    let className = ""
+    if(this.state.isLoading) {
+      className ="loader"
+    }else {
+      className ="hide-loader"
+    }
+    return className;
+  }
   componentDidMount() {
     this.fetchPokemonTypes();
     this.fetchPokemons();
   }
-
+  
   fetchPokemons = () => {
     let userChoice = this.state.limit;
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${userChoice}`)
@@ -58,7 +71,9 @@ class App extends Component {
     });
     // All promises are received
     Promise.all(pokemonsPromises).then((results) => {
+      /// end loading
       this.setState({
+        isLoading: false,
         pokemonsList: results
       })
     })
@@ -96,6 +111,8 @@ class App extends Component {
     return (
       <div className="wrapper">
         <h1>Kanto Pokemon</h1>
+        <div className={ this.handleLoader() } id="loader">
+        </div>
         <div>
           <form className="searchForm" onSubmit={this.handleSubmit}>
             
@@ -119,7 +136,7 @@ class App extends Component {
         <div className="pokemonContainer">
           {
             this.state.pokemonsList.map((pokemon) => {
-              return (
+              return (           
                 <div className="boxContainer" key={pokemon.id}>
                   <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} alt={`this is ${pokemon.name}the pokemon`}></img>
                   <div className="textDescription">
