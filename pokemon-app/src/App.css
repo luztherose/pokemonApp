@@ -54,6 +54,7 @@ input[type="submit"],
 input[type="submit"] {
   padding: 5px 15px;
   cursor: pointer;
+  transition-duration: 0.5s;
 }
 input[type="submit"]:hover {
   background-color: var(--main-bg-color);
