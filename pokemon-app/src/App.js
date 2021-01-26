@@ -40,6 +40,7 @@ class App extends Component {
     }
     
   }
+
   handleLoader = () => {
     let className = ""
     if(this.state.isLoading) {
@@ -49,6 +50,9 @@ class App extends Component {
     }
     return className;
   }
+
+  handleInputFields = () =>  this.state.isLoading;
+  
   componentDidMount() {
     this.fetchPokemonTypes();
     this.fetchPokemons();
@@ -64,6 +68,7 @@ class App extends Component {
         this.fetchApokemon(data.results)
       });
   }
+
   fetchApokemon = (pokemonData) => {
     let pokemonsPromises = pokemonData.map(poke => {
       return fetch(poke.url).then(res => res.json())
@@ -78,6 +83,7 @@ class App extends Component {
       })
     })
   }
+  
   fetchPokemonTypes = () => {
     fetch(`https://pokeapi.co/api/v2/type/`)
       .then(res => res.json())
@@ -113,8 +119,8 @@ class App extends Component {
         <h1>Kanto Pokemon</h1>
         <div className={ this.handleLoader() } id="loader">
         </div>
-        <div>
-          <form className="searchForm" onSubmit={this.handleSubmit}>
+        <fieldset disabled ={ this.handleInputFields() }>
+          <form className="searchForm" onSubmit={this.handleSubmit}  >
             
             <label htmlFor="types">Choose a type:</label>
             <select name="types" id="types" onChange={this.handleChange}>
@@ -132,7 +138,7 @@ class App extends Component {
             <input type="number" min="1" id="quantity" placeholder="15" name="quantity" onChange={this.handleChange}></input>
             <input type="submit" value="Submit"></input>
           </form>
-        </div>
+        </fieldset>
         <div className="pokemonContainer">
           {
             this.state.pokemonsList.map((pokemon) => {

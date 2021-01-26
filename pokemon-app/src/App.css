@@ -31,6 +31,9 @@ h1 {
   padding:15px;
   margin-bottom: 2rem;
 }
+fieldset {
+  border: none;
+}
 .searchForm {
   margin: 2rem 0;
 }
@@ -104,3 +107,4 @@ li {
 .hide-loader {
 display:none;
 }
+
