@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Modal from "./Modal"
 import './App.css';
 
 
@@ -9,7 +10,8 @@ class App extends Component {
     typesList: [],
     type: "all",
     isLoading: true,
-    isEqual: 0
+    isEqual: 0,
+    isModalVisible: false
   }
 
   handleChange = (event) => {
@@ -38,7 +40,6 @@ class App extends Component {
     }else {
       this.fetchPokemons();
     }
-    
   }
 
   handleLoader = () => {
@@ -56,6 +57,7 @@ class App extends Component {
   componentDidMount() {
     this.fetchPokemonTypes();
     this.fetchPokemons();
+    
   }
   
   fetchPokemons = () => {
@@ -79,7 +81,7 @@ class App extends Component {
       /// end loading
       this.setState({
         isLoading: false,
-        pokemonsList: results
+        pokemonsList: results,
       })
     })
   }
@@ -112,6 +114,27 @@ class App extends Component {
     ) 
   }
 
+  handleModalClassName = () => {
+    let className = ""
+    if( this.state.isModalVisible ) {
+      className = "modal"
+    }else {
+      className = "modalHide"
+    }
+    return className;
+  }
+  closeModal = () => {
+    this.setState({
+      isModalVisible:false
+    });
+  }
+alertModal = (event) => {
+  let target = event.target;
+  console.log(target)
+  this.setState({
+    isModalVisible:true
+  });
+}
   render() {
     
     return (
@@ -139,11 +162,11 @@ class App extends Component {
             <input type="submit" value="Submit"></input>
           </form>
         </fieldset>
-        <div className="pokemonContainer">
+        <div className="pokemonContainer" onClick={this.alertModal}>
           {
             this.state.pokemonsList.map((pokemon) => {
               return (           
-                <div className="boxContainer" key={pokemon.id}>
+                <div className="boxContainer" key={pokemon.id} >
                   <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} alt={`this is ${pokemon.name}the pokemon`}></img>
                   <div className="textDescription">
                     <h2>{pokemon.name}</h2>
@@ -163,6 +186,7 @@ class App extends Component {
             })
           }
         </div>
+        <Modal className={ this.handleModalClassName() } onClose={ this.closeModal }/>
       </div>
     );
   }
