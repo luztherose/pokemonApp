@@ -10,8 +10,9 @@ class App extends Component {
     typesList: [],
     type: "all",
     isLoading: true,
-    isEqual: 0,
-    isModalVisible: false
+    isModalVisible: false,
+    selectedPokemon: {},
+    isPokeClicked: false
   }
 
   handleChange = (event) => {
@@ -35,31 +36,30 @@ class App extends Component {
     this.setState({
       isLoading: true
     })
-    if( this.state.type !== "all" && this.state.limit > 0 ) {
+    if (this.state.type !== "all" && this.state.limit > 0) {
       this.fetchPokemonsByType();
-    }else {
+    } else {
       this.fetchPokemons();
     }
   }
 
   handleLoader = () => {
     let className = ""
-    if(this.state.isLoading) {
-      className ="loader"
-    }else {
-      className ="hide-loader"
+    if (this.state.isLoading) {
+      className = "loader"
+    } else {
+      className = "hide-loader"
     }
     return className;
   }
 
-  handleInputFields = () =>  this.state.isLoading;
-  
+  handleInputFields = () => this.state.isLoading;
+
   componentDidMount() {
     this.fetchPokemonTypes();
     this.fetchPokemons();
-    
   }
-  
+
   fetchPokemons = () => {
     let userChoice = this.state.limit;
     fetch(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${userChoice}`)
@@ -85,7 +85,7 @@ class App extends Component {
       })
     })
   }
-  
+
   fetchPokemonTypes = () => {
     fetch(`https://pokeapi.co/api/v2/type/`)
       .then(res => res.json())
@@ -101,60 +101,68 @@ class App extends Component {
   fetchPokemonsByType = () => {
     const type = this.state.type
     fetch(`https://pokeapi.co/api/v2/type/${type}`)
-    .then(res => res.json())
-    .then((data) => {
-      const limitNumber = this.state.limit
-      const limitedPokemons = data.pokemon
-        .slice(0, limitNumber)
-        .map((item) => item.pokemon)
+      .then(res => res.json())
+      .then((data) => {
+        const limitNumber = this.state.limit
+        const limitedPokemons = data.pokemon
+          .slice(0, limitNumber)
+          .map((item) => item.pokemon)
 
-      this.fetchApokemon(limitedPokemons)
-    })
-    .catch( error => console.log(error)
-    ) 
+        this.fetchApokemon(limitedPokemons)
+      })
+      .catch(error => console.log(error)
+      )
   }
 
   handleModalClassName = () => {
     let className = ""
-    if( this.state.isModalVisible ) {
+    if (this.state.isModalVisible) {
       className = "modal"
-    }else {
+    } else {
       className = "modalHide"
     }
     return className;
   }
-  closeModal = () => {
+
+  showModal = (poken) => {
     this.setState({
-      isModalVisible:false
+      isPokeClicked: true,
+      isModalVisible: true,
+      selectedPokemon: poken,
     });
   }
-alertModal = (event) => {
-  let target = event.target;
-  console.log(target)
-  this.setState({
-    isModalVisible:true
-  });
-}
+
+  closeModal = () => {
+    this.setState({
+      isModalVisible: false,
+      isPokeClicked: false,
+    });
+  }
+
+  handlePokemonClick = (poken) => {
+    this.showModal(poken);
+  }
+
   render() {
-    
+
     return (
       <div className="wrapper">
         <h1>Kanto Pokemon</h1>
-        <div className={ this.handleLoader() } id="loader">
+        <div className={this.handleLoader()} id="loader">
         </div>
-        <fieldset disabled ={ this.handleInputFields() }>
+        <fieldset disabled={this.handleInputFields()}>
           <form className="searchForm" onSubmit={this.handleSubmit}  >
-            
+
             <label htmlFor="types">Choose a type:</label>
             <select name="types" id="types" onChange={this.handleChange}>
-            <option value="all"> all</option>
-            {
-              this.state.typesList.map((item, index) => {
-                return (
-                  <option key={index} value={`${item.name}`}>{item.name}</option>
-                )
-              }) 
-            }
+              <option value="all"> all</option>
+              {
+                this.state.typesList.map((item, index) => {
+                  return (
+                    <option key={index} value={`${item.name}`}>{item.name}</option>
+                  )
+                })
+              }
             </select>
 
             <label htmlFor="quantity">Amount:</label>
@@ -162,19 +170,20 @@ alertModal = (event) => {
             <input type="submit" value="Submit"></input>
           </form>
         </fieldset>
-        <div className="pokemonContainer" onClick={this.alertModal}>
+        <div className="pokemonContainer">
           {
             this.state.pokemonsList.map((pokemon) => {
-              return (           
-                <div className="boxContainer" key={pokemon.id} >
-                  <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} alt={`this is ${pokemon.name}the pokemon`}></img>
+              return (
+                <div className="boxContainer" key={pokemon.id} onClick={() => { this.handlePokemonClick(pokemon) }} >
+
+                  <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} alt={`this is ${pokemon.name} the pokemon`}></img>
                   <div className="textDescription">
                     <h2>{pokemon.name}</h2>
                     <p>#{pokemon.id}</p>
                     {
                       pokemon.types.map(typeName => {
                         return (
-                          <ul key={typeName.slot}>
+                          <ul key={typeName.slot} className="pokeTypeContainer">
                             <li>{typeName.type.name}</li>
                           </ul>
                         )
@@ -186,7 +195,12 @@ alertModal = (event) => {
             })
           }
         </div>
-        <Modal className={ this.handleModalClassName() } onClose={ this.closeModal }/>
+        <Modal
+          className={this.handleModalClassName()}
+          onClose={this.closeModal}
+          pokemon={this.state.selectedPokemon}
+          pokeClicked={this.state.isPokeClicked}
+        />
       </div>
     );
   }
