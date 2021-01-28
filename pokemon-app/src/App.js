@@ -174,9 +174,16 @@ class App extends Component {
           {
             this.state.pokemonsList.map((pokemon) => {
               return (
-                <div className="boxContainer" key={pokemon.id} onClick={() => { this.handlePokemonClick(pokemon) }} >
+                <div className="boxContainer" 
+                key={pokemon.id} 
+                onClick={() => { this.handlePokemonClick(pokemon) }} 
+                title="Click to learn more about me!"
+                >
 
-                  <img src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`} alt={`this is ${pokemon.name} the pokemon`}></img>
+                  <img 
+                  src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
+                  alt={`this is ${pokemon.name} the pokemon`}
+                  ></img>
                   <div className="textDescription">
                     <h2>{pokemon.name}</h2>
                     <p>#{pokemon.id}</p>
