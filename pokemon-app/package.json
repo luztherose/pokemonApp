@@ -19,7 +19,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "format": "prettier 'src/**/*.js' --write"
+    "format": "prettier 'src/**/*.js' --write",
+    "lint": "eslint './src/**/*.{js,jsx}'--quiet"
   },
   "eslintConfig": {
     "extends": [
@@ -40,6 +41,8 @@
     ]
   },
   "devDependencies": {
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.2.0",
     "gh-pages": "^3.1.0",
     "prettier": "^2.2.1"
   }
