@@ -185,7 +185,7 @@ class App extends Component {
                 title="Click to learn more about me!"
               >
                 <img
-                  src={`https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png`}
+                  src={`https://cdn.traction.one/pokedex/pokemon/${pokemon.id}.png`}
                   alt={`this is ${pokemon.name} the pokemon`}
                 ></img>
                 <div className="textDescription">
